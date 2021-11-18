@@ -1,5 +1,4 @@
 import { Selection } from "d3-selection";
-import { forceCenter, forceManyBody, forceSimulation } from "d3-force";
 import { scaleLinear } from "d3-scale";
 import "d3-transition";
 
@@ -39,10 +38,6 @@ export function update<S extends SVGElement, T, V>(
       y: y(parseInt(person.id.substring(15, 20), 16)) || 0,
     }));
 
-    const simulation = forceSimulation(dataWithCoords)
-      .force("repel", forceManyBody().strength(-10))
-      .force("center", forceCenter(clientWidth / 2, clientHeight / 2));
-
     const nodes = plot
       .selectAll(".person")
       .data(dataWithCoords, (d) => (d as PersonDataWithCoords).id)
@@ -80,9 +75,5 @@ export function update<S extends SVGElement, T, V>(
           return exit;
         }
       );
-
-    simulation.on("tick", () => {
-      nodes.attr("transform", (d) => `translate(${d.x} ${d.y})`);
-    });
   };
 }

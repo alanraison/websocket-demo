@@ -2,6 +2,7 @@ import {
   ApiGatewayManagementApiClient,
   PostToConnectionCommand,
 } from "@aws-sdk/client-apigatewaymanagementapi";
+import { createHash } from "crypto";
 
 if (!process.env.WSAPI_URL) {
   throw new Error("Initialisation Error: WSAPI_URL not set");
@@ -31,7 +32,16 @@ export async function broadcast(event: EventBridgeEvent) {
   try {
     const { name, allPeople } = event.detail;
 
-    const allNames = allPeople.map(({ name }) => name);
+    const allNames = allPeople.map(({ name, connectionId }) => {
+      const hash = createHash("sha1");
+      hash.update(connectionId);
+      return { name, id: hash.digest("hex") };
+    });
+    const payload = Buffer.from(JSON.stringify({
+      event: event["detail-type"],
+      name,
+      allPeople: allNames
+    }));
 
     await Promise.all(
       allPeople.map(({ connectionId }) => {
@@ -39,13 +49,7 @@ export async function broadcast(event: EventBridgeEvent) {
         return wsBroadcast.send(
           new PostToConnectionCommand({
             ConnectionId: connectionId,
-            Data: Buffer.from(
-              JSON.stringify({
-                event: event["detail-type"],
-                name,
-                allPeople: allNames,
-              })
-            ),
+            Data: payload,
           })
         );
       })

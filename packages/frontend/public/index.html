@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Websocket Demo</title>
+</head>
+<body class="bg-gray-200">
+  <div class="flex flex-col w-full max-w-screen-md mx-auto h-screen">
+    <div class="bg-white">
+      <div class="bg-blue-100 p-2">
+        <h1 class="text-4xl">Websocket Example</h1>
+      </div>
+      <div class="p-1 flex">
+        <div class="p-1">
+          Enter your name and press "Connect"!
+        </div>
+        <input id="name" placeholder="your name" class="bg-pink-100 flex-grow p-1">
+        <button id="connect" class="bg-green-500 rounded p-1 mx-1 disabled:opacity-50">Connect</button>
+        <button id="disconnect" class="bg-red-500 rounded p-1 mx-1 disabled:opacity-50" disabled>Disconnect</button>
+      </div>
+    </div>
+    <div class="flex-grow border-black" id="d3">
+      
+    </div>
+  </div>
+</body>
+</html>

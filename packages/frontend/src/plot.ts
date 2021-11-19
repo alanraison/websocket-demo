@@ -50,7 +50,7 @@ export function update<S extends SVGElement, T, V>(
           g.append("rect")
             .attr("width", boxWidth)
             .attr("height", boxHeight)
-            .attr("fill", "green")
+            .attr("fill", "#60A5FA")
             .attr("stroke", "black")
             .transition()
             .duration(500)
@@ -63,7 +63,7 @@ export function update<S extends SVGElement, T, V>(
         },
         (update) => update,
         (exit) => {
-          exit.select("rect").attr("fill", "red");
+          exit.select("rect").attr("fill", "#F87171");
           exit
             .attr("fill-opacity", 1)
             .attr("stroke-opacity", 1)
